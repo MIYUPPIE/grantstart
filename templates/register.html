@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GrantStar — Create your account and start winning grants.">
+    <title>Register — GrantStar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+        <!-- Left: Branding Panel -->
+        <div class="auth-branding">
+            <div class="auth-brand-content">
+                <div class="logo">
+                    <span class="logo-icon">🌍</span>
+                    <span class="logo-text">Grant<span class="logo-accent">Star</span></span>
+                </div>
+                <h1 class="auth-headline">Your Grants.<br>Your Future.</h1>
+                <p class="auth-subtext">
+                    Join thousands of African founders, researchers, and NGOs<br>
+                    who are turning local impact into global funding.
+                </p>
+                <div class="auth-features">
+                    <div class="auth-feature">
+                        <span class="auth-feature-icon">🎯</span>
+                        <span>Smart grant matching by country & sector</span>
+                    </div>
+                    <div class="auth-feature">
+                        <span class="auth-feature-icon">📋</span>
+                        <span>Compliance checklists (CAC, KRA, BBBEE)</span>
+                    </div>
+                    <div class="auth-feature">
+                        <span class="auth-feature-icon">✍️</span>
+                        <span>AI-powered proposal drafting</span>
+                    </div>
+                    <div class="auth-feature">
+                        <span class="auth-feature-icon">🌍</span>
+                        <span>SDG impact translation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Registration Form -->
+        <div class="auth-form-panel">
+            <div class="auth-form-wrapper">
+                <h2 class="auth-form-title">Create Your Account</h2>
+                <p class="auth-form-subtitle">Let's set you up to find and win grants.</p>
+
+                <form id="register-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="full_name">Full Name</label>
+                        <input type="text" id="full_name" placeholder="Your full name" required autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" placeholder="Min. 6 characters" required
+                                autocomplete="new-password" minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" id="confirm_password" placeholder="Re-enter password" required
+                                autocomplete="new-password">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select id="country">
+                                <option value="">Select country</option>
+                                <option value="Nigeria">🇳🇬 Nigeria</option>
+                                <option value="Kenya">🇰🇪 Kenya</option>
+                                <option value="South Africa">🇿🇦 South Africa</option>
+                                <option value="Ghana">🇬🇭 Ghana</option>
+                                <option value="Rwanda">🇷🇼 Rwanda</option>
+                                <option value="Tanzania">🇹🇿 Tanzania</option>
+                                <option value="Ethiopia">🇪🇹 Ethiopia</option>
+                                <option value="Uganda">🇺🇬 Uganda</option>
+                                <option value="Senegal">🇸🇳 Senegal</option>
+                                <option value="Egypt">🇪🇬 Egypt</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sector">Sector</label>
+                            <select id="sector">
+                                <option value="">Select sector</option>
+                                <option value="Tech">💻 Technology</option>
+                                <option value="Agri">🌾 Agriculture</option>
+                                <option value="Health">🏥 Health</option>
+                                <option value="Education">📚 Education</option>
+                                <option value="Finance">💰 FinTech</option>
+                                <option value="Energy">⚡ Clean Energy</option>
+                                <option value="Creative">🎨 Creative</option>
+                                <option value="Manufacturing">🏭 Manufacturing</option>
+                                <option value="Environment">🌱 Environment</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="org_type">Organization Type</label>
+                            <select id="org_type">
+                                <option value="">Select type</option>
+                                <option value="Startup">🚀 Startup</option>
+                                <option value="NGO">🤝 NGO</option>
+                                <option value="Research">🔬 Research</option>
+                                <option value="Individual">👤 Individual</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stage">Stage</label>
+                            <select id="stage">
+                                <option value="">Select stage</option>
+                                <option value="Idea">💡 Idea Stage</option>
+                                <option value="Early">🌱 Early Stage</option>
+                                <option value="Growth">📈 Growth Stage</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="error-message" class="auth-error hidden"></div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="btn-register">
+                        <span class="btn-text">Create Account</span>
+                        <span class="btn-icon">✨</span>
+                    </button>
+                </form>
+
+                <p class="auth-switch">
+                    Already have an account? <a href="/login">Log in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast hidden">
+        <span id="toast-message"></span>
+    </div>
+
+    <script>
+        // ── REGISTER FORM ──
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('full_name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            const country = document.getElementById('country').value;
+            const sector = document.getElementById('sector').value;
+            const orgType = document.getElementById('org_type').value;
+            const stage = document.getElementById('stage').value;
+            const errorEl = document.getElementById('error-message');
+            const btn = document.getElementById('btn-register');
+
+            errorEl.classList.add('hidden');
+
+            // Client-side validation
+            if (password !== confirmPassword) {
+                errorEl.textContent = 'Passwords do not match.';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            if (password.length < 6) {
+                errorEl.textContent = 'Password must be at least 6 characters.';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.querySelector('.btn-text').textContent = 'Creating account...';
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        full_name: fullName,
+                        email,
+                        password,
+                        country,
+                        sector,
+                        org_type: orgType,
+                        stage,
+                    }),
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    showToast('Account created! Redirecting...');
+                    setTimeout(() => { window.location.href = '/'; }, 800);
+                } else {
+                    errorEl.textContent = data.error || 'Registration failed.';
+                    errorEl.classList.remove('hidden');
+                    btn.disabled = false;
+                    btn.querySelector('.btn-text').textContent = 'Create Account';
+                }
+            } catch (err) {
+                errorEl.textContent = 'Network error. Please try again.';
+                errorEl.classList.remove('hidden');
+                btn.disabled = false;
+                btn.querySelector('.btn-text').textContent = 'Create Account';
+            }
+        });
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

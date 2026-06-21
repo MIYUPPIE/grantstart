@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="GrantStar — the premier African-centric Global Grant Strategist. Discover, qualify for, and win global grants.">
+    <title>GrantStar — African Grant Strategist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <!-- User data from server -->
+    <div id="user-data" style="display:none" data-name="{{ user.full_name if user else '' }}"
+        data-country="{{ user.country if user else '' }}" data-sector="{{ user.sector if user else '' }}"
+        data-org-type="{{ user.org_type if user else '' }}" data-stage="{{ user.stage if user else '' }}"
+        data-registered="{{ 'true' if user and user.registered_org else 'false' }}">
+    </div>
+
+    <!-- ── HEADER ─────────────────────────────────────────────── -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-icon">🌍</span>
+                <span class="logo-text">Grant<span class="logo-accent">Star</span></span>
+            </div>
+            <div class="header-right">
+                <div id="ai-status-badge" class="ai-badge offline">
+                    <span class="pulse"></span>
+                    <span class="badge-text">AI Strategist: Offline</span>
+                </div>
+                <span class="user-greeting">👋 {{ user.full_name if user else 'Guest' }}</span>
+                <button class="btn btn-outline btn-sm" id="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ── PROGRESS BAR ───────────────────────────────────────── -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-step active" data-step="1">
+                <div class="step-circle">1</div>
+                <span class="step-label">Profile</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="2">
+                <div class="step-circle">2</div>
+                <span class="step-label">Grants</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="3">
+                <div class="step-circle">3</div>
+                <span class="step-label">Compliance</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="4">
+                <div class="step-circle">4</div>
+                <span class="step-label">Proposal</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="5">
+                <div class="step-circle">5</div>
+                <span class="step-label">Auto-Apply</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── MAIN CONTENT ───────────────────────────────────────── -->
+    <main class="main">
+
+        <!-- STEP 1: ONBOARDING + VAULT -->
+        <section id="step-1" class="step-panel active">
+            <div class="panel-header">
+                <h1>Grant Search Profile</h1>
+                <p>Basic details to find your grants. Complete your <strong>Vault Profile</strong> for auto-apply.</p>
+            </div>
+
+            <div class="vault-intro-card">
+                <div class="vault-status">
+                    <span class="vault-icon">🔒</span>
+                    <div class="vault-info">
+                        <h3>Your Credential Vault</h3>
+                        <p id="vault-completion-text">Profile: 0% complete</p>
+                    </div>
+                    <button class="btn btn-sm btn-outline" onclick="toggleVault()"> Manage Vault</button>
+                </div>
+            </div>
+
+            <form id="onboarding-form" class="form-grid">
+                <!-- ... (existing form fields) -->
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <select id="country" required>
+                        <option value="">Select your country</option>
+                        <option value="Nigeria">🇳🇬 Nigeria</option>
+                        <option value="Kenya">🇰🇪 Kenya</option>
+                        <option value="South Africa">🇿🇦 South Africa</option>
+                        <option value="Ghana">🇬🇭 Ghana</option>
+                        <option value="Rwanda">🇷🇼 Rwanda</option>
+                        <option value="Tanzania">🇹🇿 Tanzania</option>
+                        <option value="Ethiopia">🇪🇹 Ethiopia</option>
+                        <option value="Uganda">🇺🇬 Uganda</option>
+                        <option value="Senegal">🇸🇳 Senegal</option>
+                        <option value="Egypt">🇪🇬 Egypt</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sector">Sector</label>
+                    <select id="sector" required>
+                        <option value="">Select your sector</option>
+                        <option value="Tech">💻 Technology / ICT</option>
+                        <option value="Agri">🌾 Agriculture</option>
+                        <option value="Health">🏥 Health</option>
+                        <option value="Education">📚 Education</option>
+                        <option value="Finance">💰 FinTech / Finance</option>
+                        <option value="Energy">⚡ Clean Energy</option>
+                        <option value="Creative">🎨 Creative Industries</option>
+                        <option value="Manufacturing">🏭 Manufacturing</option>
+                        <option value="Environment">🌱 Environment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="org_type">Organization Type</label>
+                    <select id="org_type" required>
+                        <option value="">Select type</option>
+                        <option value="Startup">🚀 Startup (for-profit)</option>
+                        <option value="NGO">🤝 NGO / Non-profit</option>
+                        <option value="Research">🔬 Research / University</option>
+                        <option value="Individual">👤 Individual / Student</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="stage">Stage</label>
+                    <select id="stage" required>
+                        <option value="">Select stage</option>
+                        <option value="Idea">💡 Idea Stage (pre-revenue)</option>
+                        <option value="Early">🌱 Early Stage (< 2 years)</option>
+                        <option value="Growth">📈 Growth Stage (scaling)</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="registered" checked>
+                        <span class="checkmark"></span>
+                        Registered with local corporate affairs body (CAC, CIPC, BRS, etc.)
+                    </label>
+                </div>
+                <div class="form-actions full-width">
+                    <button type="submit" class="btn btn-primary" id="btn-search">
+                        <span class="btn-text">Find My Grants</span>
+                        <span class="btn-icon">→</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- VAULT MODAL (Full Profile + Credentials) -->
+            <div id="vault-modal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>🔐 Credential Vault</h2>
+                        <button class="close-btn" onclick="toggleVault()">×</button>
+                    </div>
+                    <div class="vault-tabs">
+                        <button class="vault-tab active" onclick="switchVaultTab('profile')">Full Profile</button>
+                        <button class="vault-tab" onclick="switchVaultTab('credentials')">Portal Logins</button>
+                    </div>
+
+                    <div id="vault-profile-tab" class="vault-tab-panel active">
+                        <p class="panel-note">Fill this out once to enable auto-apply for all grants.</p>
+                        <form id="vault-profile-form" class="form-grid">
+                            <div class="form-group"><label>Full Name</label><input type="text" id="v-full_name"></div>
+                            <div class="form-group"><label>Email</label><input type="email" id="v-email"></div>
+                            <div class="form-group"><label>Phone</label><input type="text" id="v-phone"></div>
+                            <div class="form-group"><label>Address</label><input type="text" id="v-address"></div>
+                            <div class="form-group"><label>City</label><input type="text" id="v-city"></div>
+                            <div class="form-group"><label>Country</label><input type="text" id="v-country"></div>
+                            <div class="form-group full-width"><label>Bio / Org Description</label><textarea id="v-bio"
+                                    rows="2"></textarea></div>
+                            <div class="form-group"><label>Organization Name</label><input type="text" id="v-org_name">
+                            </div>
+                            <div class="form-group"><label>Tax ID (TIN/KRA/SARS)</label><input type="text"
+                                    id="v-tax_id"></div>
+                            <div class="form-group"><label>Registration #</label><input type="text" id="v-org_reg">
+                            </div>
+                            <div class="form-group"><label>Year Founded</label><input type="text" id="v-org_year"></div>
+                            <div class="form-group"><label>Website</label><input type="text" id="v-org_web"></div>
+                            <div class="form-actions full-width">
+                                <button type="button" class="btn btn-secondary" onclick="toggleVault()">Close</button>
+                                <button type="submit" class="btn btn-primary">Save to Vault</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="vault-credentials-tab" class="vault-tab-panel">
+                        <div id="creds-list" class="creds-list">
+                            <!-- Populated by JS -->
+                        </div>
+                        <hr>
+                        <h4>Add New Portal Login</h4>
+                        <form id="vault-creds-form" class="form-grid">
+                            <div class="form-group full-width">
+                                <label>Portal Name (e.g. Tony Elumelu Foundation)</label>
+                                <input type="text" id="c-portal_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Portal Email/Username</label>
+                                <input type="text" id="c-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Portal Password</label>
+                                <input type="password" id="c-password" required>
+                            </div>
+                            <div class="form-actions full-width">
+                                <button type="submit" class="btn btn-outline btn-sm">Add Credential</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 2: GRANT RESULTS -->
+        <section id="step-2" class="step-panel">
+            <div class="panel-header">
+                <h1>Your Grant Matches</h1>
+                <p id="results-subtitle">Ranked by ease of application for African founders.</p>
+            </div>
+
+            <div class="grants-section">
+                <h2 class="section-title">🌍 Global Grants</h2>
+                <div id="global-grants" class="grants-grid"></div>
+            </div>
+
+            <div class="grants-section">
+                <h2 class="section-title">📍 Local Grants</h2>
+                <div id="local-grants" class="grants-grid"></div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="goToStep(1)">
+                    <span class="btn-icon">←</span>
+                    <span class="btn-text">Back</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 3: COMPLIANCE CHECK -->
+        <section id="step-3" class="step-panel">
+            <div class="panel-header">
+                <h1>Compliance Checklist</h1>
+                <p id="compliance-subtitle">Documents you need for this grant.</p>
+            </div>
+            <div id="compliance-content" class="compliance-grid"></div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="goToStep(2)">
+                    <span class="btn-icon">←</span>
+                    <span class="btn-text">Back to Grants</span>
+                </button>
+                <button class="btn btn-primary" onclick="goToStep(4)">
+                    <span class="btn-text">Draft Proposal</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 4: PROPOSAL DRAFTER -->
+        <section id="step-4" class="step-panel">
+            <div class="panel-header">
+                <h1>Proposal Drafter</h1>
+                <p>Generate a donor-ready proposal using the Problem-Solution-Impact framework.</p>
+            </div>
+            <form id="proposal-form" class="form-grid">
+                <div class="form-group full-width">
+                    <label for="project_name">Project Name</label>
+                    <input type="text" id="project_name" placeholder="e.g. AgriConnect, EduBridge, HealthFirst"
+                        required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="problem">The Problem (What challenge are you solving?)</label>
+                    <textarea id="problem" rows="3"
+                        placeholder="e.g. Smallholder farmers in Northern Nigeria lack access to modern market information, causing 40% post-harvest losses..."
+                        required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="solution">Your Solution (How will you solve it?)</label>
+                    <textarea id="solution" rows="3"
+                        placeholder="e.g. A mobile-based marketplace connecting farmers directly to buyers with real-time pricing and logistics support..."
+                        required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="impact">Expected Impact (What will change?)</label>
+                    <textarea id="impact" rows="3"
+                        placeholder="e.g. Connect 10,000 farmers to buyers, reduce post-harvest losses by 30%, increase farmer income by 50%..."
+                        required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="beneficiaries">Target Beneficiaries</label>
+                    <input type="text" id="beneficiaries" placeholder="e.g. 10,000 smallholder farmers">
+                </div>
+                <div class="form-group">
+                    <label for="budget_usd">Budget (USD)</label>
+                    <input type="number" id="budget_usd" placeholder="e.g. 50000" min="0">
+                </div>
+                <div class="form-actions full-width">
+                    <button class="btn btn-secondary" onclick="goToStep(3); return false;">
+                        <span class="btn-icon">←</span>
+                        <span class="btn-text">Back</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="btn-draft">
+                        <span class="btn-text">Generate Proposal</span>
+                        <span class="btn-icon">✨</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Proposal Output -->
+            <div id="proposal-output" class="proposal-output hidden">
+                <div class="proposal-header">
+                    <h2 id="proposal-title"></h2>
+                    <div class="proposal-actions">
+                        <button class="btn btn-outline" id="btn-copy" onclick="copyProposal()">
+                            📋 Copy
+                        </button>
+                        <button class="btn btn-primary" id="btn-auto-apply" onclick="prepareAutoApply()">
+                            🚀 Auto-Apply
+                        </button>
+                    </div>
+                </div>
+                <div id="proposal-body" class="proposal-body"></div>
+                <div class="proposal-meta">
+                    <div id="sdg-tags" class="tag-list"></div>
+                    <p id="word-count" class="meta-text"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 5: AUTO-APPLY ENGINE -->
+        <section id="step-5" class="step-panel">
+            <div class="panel-header">
+                <h1>Auto-Apply Assistant</h1>
+                <p id="apply-subtitle">Pre-filling application forms for <span id="portal-name-display"
+                        class="gold-text"></span>.</p>
+            </div>
+
+            <div id="auto-apply-content" class="apply-container">
+                <div class="apply-sidebar">
+                    <div class="apply-status-card">
+                        <div class="status-circle" id="overall-completion-pct">0%</div>
+                        <p>Total Form Readiness</p>
+                    </div>
+                    <div id="registration-helper" class="registration-card hidden">
+                        <h4>Portal Account Needed</h4>
+                        <p id="reg-note"></p>
+                        <button class="btn btn-gold btn-sm btn-full" id="btn-portal-reg">Create Portal Account</button>
+                    </div>
+                    <div class="action-card">
+                        <button class="btn btn-primary btn-full" id="btn-open-portal">Open Grant Portal</button>
+                        <p class="helper-text">Once open, use the fields on the right to auto-fill the form.</p>
+                    </div>
+                </div>
+
+                <div class="apply-main">
+                    <div id="form-sections" class="form-sections">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="goToStep(4)">
+                    <span class="btn-icon">←</span>
+                    <span class="btn-text">Back to Proposal</span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- ── FOOTER ─────────────────────────────────────────────── -->
+    <footer class="footer">
+        <p>🌍 GrantStar — Bridging African brilliance with global capital.</p>
+        <p class="footer-sub">Built for founders who refuse to be overlooked.</p>
+    </footer>
+
+    <!-- ── TOAST NOTIFICATION ─────────────────────────────────── -->
+    <div id="toast" class="toast hidden">
+        <span id="toast-message"></span>
+    </div>
+
+    <!-- ── LOADING OVERLAY ────────────────────────────────────── -->
+    <div id="loading" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <p class="loading-text">Searching the cosmos for your grants...</p>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>

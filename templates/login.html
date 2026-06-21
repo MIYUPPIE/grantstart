@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GrantStar — Login to your African Grant Strategist account.">
+    <title>Login — GrantStar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+        <!-- Left: Branding Panel -->
+        <div class="auth-branding">
+            <div class="auth-brand-content">
+                <div class="logo">
+                    <span class="logo-icon">🌍</span>
+                    <span class="logo-text">Grant<span class="logo-accent">Star</span></span>
+                </div>
+                <h1 class="auth-headline">African Brilliance<br>× Global Capital</h1>
+                <p class="auth-subtext">
+                    Discover grants. Check compliance. Draft winning proposals.<br>
+                    Built for founders who refuse to be overlooked.
+                </p>
+                <div class="auth-stats">
+                    <div class="auth-stat">
+                        <span class="auth-stat-num">15+</span>
+                        <span class="auth-stat-label">Curated Grants</span>
+                    </div>
+                    <div class="auth-stat">
+                        <span class="auth-stat-num">6</span>
+                        <span class="auth-stat-label">African Countries</span>
+                    </div>
+                    <div class="auth-stat">
+                        <span class="auth-stat-num">$15M+</span>
+                        <span class="auth-stat-label">In Funding</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Login Form -->
+        <div class="auth-form-panel">
+            <div class="auth-form-wrapper">
+                <h2 class="auth-form-title">Welcome Back</h2>
+                <p class="auth-form-subtitle">Log in to continue securing your funding.</p>
+
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required
+                            autocomplete="current-password">
+                    </div>
+
+                    <div id="error-message" class="auth-error hidden"></div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="btn-login">
+                        <span class="btn-text">Log In</span>
+                        <span class="btn-icon">→</span>
+                    </button>
+                </form>
+
+                <p class="auth-switch">
+                    Don't have an account? <a href="/register">Create one</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast hidden">
+        <span id="toast-message"></span>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <p class="loading-text">Authenticating...</p>
+        </div>
+    </div>
+
+    <script>
+        // ── LOGIN FORM ──
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('error-message');
+            const btn = document.getElementById('btn-login');
+
+            errorEl.classList.add('hidden');
+            btn.disabled = true;
+            btn.querySelector('.btn-text').textContent = 'Logging in...';
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    showToast('Login successful! Redirecting...');
+                    setTimeout(() => { window.location.href = '/'; }, 800);
+                } else {
+                    errorEl.textContent = data.error || 'Login failed.';
+                    errorEl.classList.remove('hidden');
+                    btn.disabled = false;
+                    btn.querySelector('.btn-text').textContent = 'Log In';
+                }
+            } catch (err) {
+                errorEl.textContent = 'Network error. Please try again.';
+                errorEl.classList.remove('hidden');
+                btn.disabled = false;
+                btn.querySelector('.btn-text').textContent = 'Log In';
+            }
+        });
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

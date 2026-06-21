@@ -1,0 +1,16 @@
+# Secrets — never commit
+.env
+.vault_key
+
+# Databases
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# OS
+.DS_Store
